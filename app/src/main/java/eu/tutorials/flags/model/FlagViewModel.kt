@@ -23,9 +23,13 @@ class FlagViewModel : ViewModel() {
         _options.value = flags[0].options
     }
 
-    fun nextQuestion() {
-        _count.value = count.value?.inc()
-        _image.value = flags[count.value!!].image
-        _options.value = flags[count.value!!].options
+    fun nextQuestion() : Boolean {
+        if (count.value!! < flags.size) {
+            _image.value = flags[count.value!!].image
+            _options.value = flags[count.value!!].options
+            _count.value = count.value?.inc()
+            return true
+        }
+        return false
     }
 }

@@ -10,4 +10,7 @@
     <string name="what_country_does_this_flag_belong_to">What country does this flag belong to?</string>
     <string name="flag_count">%d/%d</string>
     <string name="submit">Submit</string>
+    <string name="hey_congratulations">Hey, Congratulations!</string>
+    <string name="result">Result</string>
+    <string name="result_value">You scored %d out of %d.</string>
 </resources>

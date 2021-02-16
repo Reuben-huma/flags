@@ -5,16 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import eu.tutorials.flags.adapter.MainAdapter
 import eu.tutorials.flags.databinding.FragmentMainBinding
 import eu.tutorials.flags.model.FlagViewModel
 
+private const val ARG_PARAM1 = "user_name"
+
 class MainFragment : Fragment() {
 
+    private var userName: String? = null
     private var binding: FragmentMainBinding? = null
-    private val viewModel: FlagViewModel by viewModels()
+    private val sharedViewModel: FlagViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let { userName = it.getString(ARG_PARAM1) }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,8 +39,8 @@ class MainFragment : Fragment() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             mainFragment = this@MainFragment
-            mainViewModel = viewModel
-            recyclerView.adapter = MainAdapter(requireContext(), viewModel.options.value!!)
+            mainViewModel = sharedViewModel
+            recyclerView.adapter = MainAdapter(requireContext(), sharedViewModel.options.value!!)
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
             recyclerView.setHasFixedSize(true)
         }
@@ -43,7 +52,14 @@ class MainFragment : Fragment() {
     }
 
     fun onSubmit() {
-        viewModel.nextQuestion()
+        if(!sharedViewModel.nextQuestion()) {
+            move()
+        }
+    }
+
+    private fun move() {
+        val action = MainFragmentDirections.actionMainFragmentToResultsFragment(userName = userName!!)
+        findNavController().navigate(action)
     }
 
 }

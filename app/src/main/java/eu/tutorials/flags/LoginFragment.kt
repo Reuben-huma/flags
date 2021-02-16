@@ -11,7 +11,6 @@ import eu.tutorials.flags.databinding.FragmentLoginBinding
 import eu.tutorials.flags.model.FlagViewModel
 
 class LoginFragment : Fragment() {
-
     private var binding: FragmentLoginBinding? = null
     private val viewModel: FlagViewModel by viewModels()
 
@@ -34,7 +33,8 @@ class LoginFragment : Fragment() {
     }
 
     fun onStartPressed() {
-        findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+        val action = LoginFragmentDirections.actionLoginFragmentToMainFragment(binding?.userNameEditText?.text.toString())
+        findNavController().navigate(action)
     }
 
 }
